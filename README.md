@@ -8,9 +8,9 @@ This vicuna chatbot app is using this model: https://huggingface.co/TheBloke/sta
 ![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/Vicuna_app_answer.jpg?raw=true)
 ---
 Ref: https://stability.ai/blog/stablevicuna-open-source-rlhf-chatbot
-
-https://huggingface.co/spaces/CarperAI/StableVicuna
+Ref: https://huggingface.co/spaces/CarperAI/StableVicuna
 ------
+This vicuna chatbot app is using this model: https://huggingface.co/TheBloke/stable-vicuna-13B-HF"
 
 ![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/vicunaspace.jpg?raw=true)
 ---
