@@ -12,7 +12,7 @@ Ref: https://stability.ai/blog/stablevicuna-open-source-rlhf-chatbot
 https://huggingface.co/spaces/CarperAI/StableVicuna
 ------
 
-![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/Vicunaspace.jpg?raw=true)
+![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/vicunaspace.jpg?raw=true)
 ---
 
 
