@@ -15,6 +15,7 @@ We are proud to present StableVicuna, the first large-scale open source chatbot 
 -----
 
 Ref: https://stability.ai/blog/stablevicuna-open-source-rlhf-chatbot
+
 Ref: https://huggingface.co/spaces/CarperAI/StableVicuna
 
 ---
