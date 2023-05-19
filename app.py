@@ -8,7 +8,7 @@ from transformers import Trainer
 BASE_MODEL = "TheBloke/stable-vicuna-13B-HF"
 
 # Create a custom device map
-# This will vary based on the architecture of your model and the memory capacity of your GPU and CPU
+# This will vary based on the architecture of model and the memory capacity of GPU and CPU
 device_map = {0: [0, 1, 2], 1: [3, 4, 5]}
 
 model = LlamaForCausalLM.from_pretrained(
