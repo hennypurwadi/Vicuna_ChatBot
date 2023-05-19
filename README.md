@@ -4,6 +4,8 @@ Vicuna is created by fine-tuning a LLaMA base model using approximately 70K user
 Introducing the First Large-Scale Open Source RLHF LLM Chatbot
 StableVicuna, the first large-scale open source chatbot trained via reinforced learning from human feedback (RLHF). StableVicuna is a further instruction fine tuned and RLHF trained version of Vicuna v0 13b, which is an instruction fine tuned LLaMA 13b model. For the interested reader, you can find more about Vicuna here: https://lmsys.org/blog/2023-03-30-vicuna/
 
+## To fine-tune Vicuna with your own dataset: https://github.com/hennypurwadi/Alpaca_finetune_sentiment_analysis
+
 ## To RUN APP: https://huggingface.co/spaces/RinInori/Vicuna_ChatBot
 
 (But I make it private due to high GPU needed for this app)
