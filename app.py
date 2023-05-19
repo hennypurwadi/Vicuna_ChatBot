@@ -5,7 +5,7 @@ import gradio as gr
 from transformers import GenerationConfig, LlamaForCausalLM, LlamaTokenizer
 from transformers import Trainer
 
-BASE_MODEL = "TheBloke/stable-vicuna-13B-HF"
+BASE_MODEL = "TheBloke/vicuna-7B-1.1-HF"
 
 # Create a custom device map
 # This will vary based on the architecture of model and the memory capacity of GPU and CPU
@@ -15,7 +15,7 @@ model = LlamaForCausalLM.from_pretrained(
     BASE_MODEL,
     torch_dtype=torch.float16,
     load_in_8bit=True,
-    device_map="auto",
+    device_map = {0: [0, 1, 2], 1: [3, 4, 5]},
     offload_folder="./cache",
 )
 
@@ -54,6 +54,6 @@ iface = gr.Interface(
     inputs="text", 
     outputs="text",
     title="Chatbot",
-    description="This vicuna app is using this model: https://huggingface.co/TheBloke/stable-vicuna-13B-HF"
+    description="This vicuna app is using this model: https://huggingface.co/TheBloke/vicuna-7B-1.1-HF"
 )
 iface.launch()
