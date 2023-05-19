@@ -11,7 +11,7 @@ StableVicuna, the first large-scale open source chatbot trained via reinforced l
 ![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/Vicuna_app_answer.jpg?raw=true)
 
 ------
-### This vicuna chatbot app is using this model: https://huggingface.co/TheBloke/stable-vicuna-13B-HF
+### This vicuna chatbot app is using this model: https://huggingface.co/TheBloke/vicuna-7B-1.1-HF
 
 -----
 
