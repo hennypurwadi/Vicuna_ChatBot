@@ -13,11 +13,10 @@ License: Apache License 2.0. To find more about Vicuna here: https://lmsys.org/b
 
 --------
 
-### This vicuna chatbot app is using this model: https://huggingface.co/TheBloke/vicuna-7B-1.1-HF
-
+![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/vicuna_space.jpg?raw=true)
 --------
 
-![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/vicuna_space.jpg?raw=true)
+### This vicuna chatbot app is using this model: https://huggingface.co/TheBloke/vicuna-7B-1.1-HF
 
 --------
 
