@@ -7,17 +7,19 @@ License: Apache License 2.0. To find more about Vicuna here: https://lmsys.org/b
 
 --------
 
-
 ## To RUN APP: https://huggingface.co/spaces/RinInori/Vicuna_ChatBot
 
+--------
 ![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/Vicuna_app_answer.jpg?raw=true)
 
-------
+--------
+
 ### This vicuna chatbot app is using this model: https://huggingface.co/TheBloke/vicuna-7B-1.1-HF
 
----
+--------
 
 ![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/vicuna_space.jpg?raw=true)
 
------
+--------
+
 ### To fine-tune Vicuna with your own dataset: https://github.com/hennypurwadi/Alpaca_finetune_sentiment_analysis
