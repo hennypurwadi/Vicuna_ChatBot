@@ -16,5 +16,5 @@ License: Apache License 2.0. To find more about Vicuna here: https://lmsys.org/b
 
 ---
 
-![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/vicuna_correct_2029.jpg?raw=true)
+![Image description](https://github.com/hennypurwadi/Vicuna_ChatBot/blob/main/vicuna_app_answer.jpg?raw=true)
 
