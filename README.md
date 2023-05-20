@@ -17,7 +17,7 @@ License: Apache License 2.0. To find more about Vicuna here: https://lmsys.org/b
 
 --------
 
-### To fine-tune/ train a cuatom dataset on top of Vicuna: https://github.com/hennypurwadi/Alpaca_finetune_sentiment_analysis
+### To fine-tune/ train a custom dataset on top of Vicuna: https://github.com/hennypurwadi/Alpaca_finetune_sentiment_analysis
 
 --------
 
