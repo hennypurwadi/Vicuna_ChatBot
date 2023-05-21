@@ -2,58 +2,105 @@ import torch
 from peft import PeftModel
 import transformers
 import gradio as gr
-from transformers import GenerationConfig, LlamaForCausalLM, LlamaTokenizer
-from transformers import Trainer
+
+assert (
+    "LlamaTokenizer" in transformers._import_structure["models.llama"]
+), "LLaMA is now in HuggingFace's main branch.\nPlease reinstall it: pip uninstall transformers && pip install git+https://github.com/huggingface/transformers.git"
+from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig
+
+tokenizer = LlamaTokenizer.from_pretrained("decapoda-research/llama-7b-hf")
 
 BASE_MODEL = "TheBloke/vicuna-7B-1.1-HF"
+LORA_WEIGHTS = "RinInori/vicuna_finetuned_6_sentiments" #Fine-tuned Alpaca model for sentiment analysis
 
-# Create a custom device map
-# This will vary based on the architecture of model and the memory capacity of GPU and CPU
-device_map = {0: [0, 1, 2], 1: [3, 4, 5]}
+if torch.cuda.is_available():
+    device = "cuda"
+else:
+    device = "cpu"
+try:
+    if torch.backends.mps.is_available():
+        device = "mps"
+except:
+    pass
 
-model = LlamaForCausalLM.from_pretrained(
-    BASE_MODEL,
-    torch_dtype=torch.float16,
-    load_in_8bit=True,
-    device_map = {0: [0, 1, 2], 1: [3, 4, 5]},
-    offload_folder="./cache",
-)
+if device == "cuda":
+    model = LlamaForCausalLM.from_pretrained(
+        BASE_MODEL,
+        load_in_8bit=False,
+        torch_dtype=torch.float16,
+        device_map="auto",
+    )
+    model = PeftModel.from_pretrained(
+        model, LORA_WEIGHTS, torch_dtype=torch.float16, force_download=True
+    )
+elif device == "mps":
+    model = LlamaForCausalLM.from_pretrained(
+        BASE_MODEL,
+        device_map={"": device},
+        torch_dtype=torch.float16,
+    )
+    model = PeftModel.from_pretrained(
+        model,
+        LORA_WEIGHTS,
+        device_map={"": device},
+        torch_dtype=torch.float16,
+    )
+else:
+    model = LlamaForCausalLM.from_pretrained(
+        BASE_MODEL, device_map={"": device}, low_cpu_mem_usage=True
+    )
+    model = PeftModel.from_pretrained(
+        model,
+        LORA_WEIGHTS,
+        device_map={"": device},
+    )
 
-tokenizer = LlamaTokenizer.from_pretrained(BASE_MODEL)
-tokenizer.pad_token_id = 0
-tokenizer.padding_side = "left"
+if device != "cpu":
+    model.half()
+model.eval()
+if torch.__version__ >= "2":
+    model = torch.compile(model)
 
-def format_prompt(prompt: str) -> str:
-    return f"### Human: {prompt}\n### Assistant:"
-
-generation_config = GenerationConfig(
+def evaluate(
+    input_text,
+    temperature=0.1,
+    top_p=0.75,
+    top_k=40,
+    num_beams=4,
     max_new_tokens=128,
-    temperature=0.2,
-    repetition_penalty=1.0,
+    **kwargs,
+):
+    prompt = input_text
+    inputs = tokenizer(prompt, return_tensors="pt")
+    input_ids = inputs["input_ids"].to(device)
+    generation_config = GenerationConfig(
+        temperature=temperature,
+        top_p=top_p,
+        top_k=top_k,
+        num_beams=num_beams,
+        **kwargs,
+    )
+    with torch.no_grad():
+        generation_output = model.generate(
+            input_ids=input_ids,
+            generation_config=generation_config,
+            return_dict_in_generate=True,
+            output_scores=True,
+            max_new_tokens=max_new_tokens,
+        )
+    s = generation_output.sequences[0]
+    output = tokenizer.decode(s)
+    return output.strip()
+
+g = gr.Interface(
+    fn=evaluate,
+    inputs=gr.inputs.Textbox(label="Input", placeholder="Type your input here..."),
+    outputs=gr.outputs.Textbox(label="Output"),
+    title="ChatBot and Text Generation",
+    description="This model is a fine-tuned version of the Vicuna model. \
+    BASE MODEL is 'TheBloke/vicuna-7B-1.1-HF', and LORA_WEIGHTS = 'RinInori/vicuna_finetuned_6_sentiments' ",    
+    theme="default",
 )
 
-def generate_text(prompt: str):
-    formatted_prompt = format_prompt(prompt)
-
-    inputs = tokenizer(
-        formatted_prompt, 
-        padding=False, 
-        add_special_tokens=False, 
-        return_tensors="pt"
-    ).to(model.device)
-
-    with torch.inference_mode():
-        tokens = model.generate(**inputs, generation_config=generation_config)
-
-    response = tokenizer.decode(tokens[0], skip_special_tokens=True)
-    assistant_index = response.find("### Assistant:") + len("### Assistant:")
-    return response[assistant_index:].strip()
-
-iface = gr.Interface(
-    fn=generate_text, 
-    inputs="text", 
-    outputs="text",
-    title="Chatbot",
-    description="This vicuna app is using this model: https://huggingface.co/TheBloke/vicuna-7B-1.1-HF"
-)
-iface.launch()
+if __name__ == "__main__":
+    g.launch()
